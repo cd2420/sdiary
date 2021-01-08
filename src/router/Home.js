@@ -99,7 +99,7 @@ const Home = ({userObj}) => {
                     <Diary key={diary.id} diaryObj={diary} /> 
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary" href={`/#/detailDiary/${diary.id}`}>
+                    <Button size="small" color="primary" href={`/sdiary/#/detailDiary/${diary.id}`}>
                       상세
                     </Button>
                     {diary.creatorId === userObj.creatorId ?

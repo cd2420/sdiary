@@ -147,12 +147,12 @@ const Navigation = ({userObj,refreshUser}) => {
             </IconButton>
           </div>
           <Divider />
-          <List><Links href="/#/">Home</Links></List>
+          <List><Links href="/sdiary/#/">Home</Links></List>
           <Divider />
-          <List><Links href="/#/profile">My Profile</Links></List>
+          <List><Links href="/sdiary/#/profile">My Profile</Links></List>
           <Divider />
           {userObj.position ==="(부)구역장" &&
-           <List><Links href="/#/profile">구역원 체크</Links></List>
+           <List><Links href="/sdiary/#/profile">구역원 체크</Links></List>
           }
         </Drawer>
         <main className={classes.content}>
