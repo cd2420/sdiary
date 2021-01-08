@@ -1,6 +1,5 @@
 import PhoneAuthProvide from "components/PhoneAuthProvide";
-import { serviceAuth,firebaseInstance } from "fbase";
-import React, {useState} from "react";
+import React from "react";
 
 const Auth = () => {
 

@@ -3,35 +3,30 @@ import { HashRouter as Router, Redirect, Route, Switch } from "react-router-dom"
 import Auth from "router/Auth";
 import CheckPerson from "router/Check";
 import Profile from "router/Profile";
+import DetailDiary from "./DetailDiary";
 import Navigation from "./Navigation";
 
-const AppRouter = ({isLoggIn, userObj}) => {
+const AppRouter = ({userObj, refreshUser}) => {
 
-
+   
     return (
         <Router>
-            {isLoggIn && <Navigation />}
+            {/* {isLoggIn && <Navigation isLoggIn={isLoggIn} userObj={userObj} refreshUser={refreshUser} />} */}
             <Switch>
-            { isLoggIn ? 
+            { 
                 (
                 <>
                     <Route exact path="/">
-                        <CheckPerson userObj={userObj} />
+                        <CheckPerson userObj={userObj} refreshUser={refreshUser} />
                     </Route>
-                    <Route exact path="/profile">
-                        <Profile />
+                    <Route exact path="/profile" >
+                        <Profile userObj={userObj} refreshUser={refreshUser} />
                     </Route>
+                    <Route exact path="/detailDiary/:id" component={DetailDiary} />
                     <Redirect from="*" to="/" />
                 </>
                 )
-                :
-                (
-                <>
-                    <Route exact path="/">
-                        <Auth />
-                    </Route>
-                </>
-                )           
+               
             }
             </Switch>
         </Router>

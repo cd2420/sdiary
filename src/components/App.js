@@ -1,6 +1,8 @@
 import { dbService, serviceAuth } from "fbase";
 import React,{useState,useEffect} from "react";
 import AppRouter from "components/Router";
+import Navigation from "./Navigation";
+import PhoneAuthProvide from "./PhoneAuthProvide";
 
 
 function App() {
@@ -14,7 +16,11 @@ function App() {
           if(user){
             getUser(user).then(
               (result) => {
-                setUserObj(result);
+                const checkObj = checkObjfun(result);
+                setUserObj({
+                  ...result,
+                  checkObj
+                });
               }
             ).catch((error) => {
               console.log(error);
@@ -36,9 +42,34 @@ function App() {
     return userObj[0];
   }
 
+  const refreshUser = () => {
+    const user = serviceAuth.currentUser;
+    getUser(user).then(
+      (result) => {
+        const checkObj = checkObjfun(result);
+        setUserObj({
+          ...result,
+          checkObj
+        });
+      }
+    ).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  const checkObjfun = (userObj) => {
+    if(Boolean(userObj.position) && Boolean(userObj.sector) && Boolean(userObj.username)){
+       return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <>
-      {isInit ? <AppRouter isLoggIn={Boolean(userObj)} userObj={userObj}  /> : "Initializing"}
+      {isInit ? (
+         Boolean(userObj) ? <Navigation userObj={userObj} refreshUser={refreshUser} /> : <PhoneAuthProvide /> 
+      )  : "Initializing"}
     </>
   );
 }

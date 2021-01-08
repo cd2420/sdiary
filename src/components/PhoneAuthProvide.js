@@ -1,11 +1,14 @@
-import React,{useEffect, useState} from "react";
+import React,{useEffect} from "react";
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 import { firebaseInstance, serviceAuth, dbService } from "fbase";
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { Avatar, Typography } from "@material-ui/core";
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 const PhoneAuthProvide = () => {
-
-  
 
     function onSignInSubmit(e) {
         e.preventDefault();
@@ -41,7 +44,7 @@ const PhoneAuthProvide = () => {
       const addUser = async (user) => {
         const users = await dbService.collection("users").where("creatorId", "==", user.uid).get();
         const check = users.docs.length;
-        if (check == 0) {
+        if (check === 0) {
           getCheckUser(user);
         }
       }
@@ -118,10 +121,6 @@ const PhoneAuthProvide = () => {
         return document.getElementById('phone-number').value;
       }
 
-      function getNameFromUserInput() {
-        return document.getElementById('user-name').value;;
-      }
-    
       /**
        * Returns true if the phone number is valid.
        */
@@ -219,32 +218,50 @@ const PhoneAuthProvide = () => {
 
      }, []
     );
- 
-    return (
-        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <main class="mdl-layout__content mdl-color--grey-100">
-          <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-      
-      
-            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-              <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
-                <h2 class="mdl-card__title-text">휴대폰으로 로그인하기</h2>
-              </div>
-              <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                <p>휴대폰 번호 입력</p>
-      
-                <form id="sign-in-form" action="#">
-                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" placeholder="Enter your phone number..." pattern="\+[0-9\s\-\(\)]+" id="phone-number" />
-                   <span class="mdl-textfield__error">Input is not an international phone number!</span>
-                  </div>
-                  <div id="recaptcha-container"></div>
-                  <input type="submit" disabled class="mdl-button mdl-js-button mdl-button--raised" id="sign-in-button" value="Sign-in"/>
-                </form>
-      
-                <button class="mdl-button mdl-js-button mdl-button--raised" id="sign-out-button">Sign-out</button>
+    
+    const useStyles = makeStyles((theme) => ({
+      paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      },
+      avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+      },
+      form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+      },
+      submit: {
+        margin: theme.spacing(3, 0, 2),
+      },
+    }));
+    const classes = useStyles();
 
-                <form id="verification-code-form" action="#">
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          휴대폰 인증
+        </Typography>
+        <form className={classes.form} id="sign-in-form" action="#">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" placeholder="(ex) +82 01012345678" pattern="\+[0-9\s\-\(\)]+" id="phone-number" />
+            <span class="mdl-textfield__error">Input is not an international phone number!</span>
+          </div>
+          <div id="recaptcha-container"></div>
+          <input type="submit" disabled class="mdl-button mdl-js-button mdl-button--raised" id="sign-in-button" value="Sign-in"/>
+        </form>
+      
+        <button class="mdl-button mdl-js-button mdl-button--raised" id="sign-out-button">Sign-out</button>
+
+        <form id="verification-code-form" action="#">
                   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input class="mdl-textfield__input" type="text" id="verification-code" placeholder="코드입력" />
                     {/* <input class="mdl-textfield__input" type="text" placeholder="이름" id="user-name" value={userName} onChange={changeName} /> */}
@@ -253,12 +270,8 @@ const PhoneAuthProvide = () => {
                   <button class="mdl-button mdl-js-button mdl-button--raised" id="cancel-verify-code-button">Cancel</button>
                 </form>
 
-              </div>
-            </div>
-      
-          </div>
-        </main>
       </div>
+      </Container>
     );
 }
 

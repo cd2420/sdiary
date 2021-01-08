@@ -1,9 +1,13 @@
 import React from "react";
+import EditProfile from "./EditProfile";
 
-const Profile = () => {
+const Profile = ({userObj,refreshUser}) => {
     return (
         <>
-        Profile
+        {
+                Boolean(userObj.checkObj) ? "Profile" : <EditProfile userObj={userObj} refreshUser={refreshUser} />
+        }
+        
         </>
     );
 }
