@@ -2,9 +2,10 @@ import React, { useState } from "react";
 
 
 
+
 const Diary = ({diaryObj}) => {
 
-    const [text, setText] = useState(diaryObj.text);
+    const [text, setText] = useState(diaryObj.text.replaceAll(/(<br>|<br\/>|<br \/>)/g, '\r\n'));
 
     const fnChkByte = (txt, len, lastTxt) => {
         if (len == "" || len == null) { // 기본값

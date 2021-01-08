@@ -3,6 +3,7 @@ import { dbService } from "fbase";
 import { Button } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Parser from 'html-react-parser';
 
 const DiaryFactory = ({userObj}) =>{
 
@@ -11,7 +12,7 @@ const DiaryFactory = ({userObj}) =>{
     const onSubmit = async(event) => {
         event.preventDefault();
         const diaryObj = {
-            text: diary,
+            text:  diary.replace(/(\n|\r\n)/g, '<br>'),
             createdAt : Date.now(),
             creatorId : userObj.creatorId,
             sector : userObj.sector,

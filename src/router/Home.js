@@ -65,6 +65,7 @@ const Home = ({userObj}) => {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          
         },
         cardMedia: {
           paddingTop: '56.25%', // 16:9
@@ -92,17 +93,17 @@ const Home = ({userObj}) => {
         <div>
             <DiaryFactory userObj={userObj} />
 
-            <Container className={classes.cardGrid} maxWidth="md">
-            <Grid container spacing={4}>
+            <Container className={classes.cardGrid} >
+            <Grid container spacing={4} >
             {diarys.map((diary) => (
               <Grid item key={diary.id} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
+                <Card className={classes.card} >
                   <CardMedia
                     className={classes.cardMedia}
                     image="https://source.unsplash.com/random"
                     title="Image title"
                   />
-                  <CardContent className={classes.cardContent} >
+                  <CardContent className={classes.cardContent}  >
                     <Diary key={diary.id} diaryObj={diary} /> 
                   </CardContent>
                   <CardActions>

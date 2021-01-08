@@ -3,6 +3,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
+import AppBar from '@material-ui/core/AppBar';
+import CameraIcon from '@material-ui/icons/PhotoCamera';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Link from '@material-ui/core/Link';
+import Parser from 'html-react-parser';
 
 const DetailDiary = ({match}) => {
     
@@ -47,7 +60,7 @@ const DetailDiary = ({match}) => {
       const onSubmit = async(event) => {
         event.preventDefault();
         await dbService.doc(`diarys/${id}`).update({
-            text : newText,
+            text : newText.replace(/(\n|\r\n)/g, '<br>'),
         });
         window.location.href="/sdiary/#/";
         
@@ -60,7 +73,7 @@ const DetailDiary = ({match}) => {
 
     return (
         <>
-        {isOwner ? 
+        {!isOwner ? 
             (
             <form onSubmit={onSubmit}>
             <TextField
@@ -87,10 +100,24 @@ const DetailDiary = ({match}) => {
             ) 
             
             :
+
             ( 
-            <div>
-                {newText}
-            </div>
+        <div className={classes.heroContent}>
+          <Container maxWidth="sm">
+            <Typography variant="h5" align="center" color="textSecondary" paragraph>
+            
+            {Parser(newText)}
+            
+            </Typography>
+          </Container>
+        </div>
+
+
+
+
+            // <div>
+            //     {newText}
+            // </div>
             )   
         }
        </>
