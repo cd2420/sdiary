@@ -24,7 +24,7 @@ const Home = ({userObj}) => {
 
     useEffect(
      () => {
-         dbService.collection("diarys").onSnapshot((snapshot) => {
+         dbService.collection("diarys").orderBy("createdAt","desc").onSnapshot((snapshot) => {
             const diarysArray = snapshot.docs.map((doc) => ({
                 id:doc.id,
                 ...doc.data(),
@@ -79,7 +79,14 @@ const Home = ({userObj}) => {
       }));
       
     const classes = useStyles();
-    
+
+    const onDeleteClick = async(diaryId) => {
+      const ok = window.confirm("정말로 삭제하시겠습니까?");
+      if(ok){
+         await dbService.doc(`diarys/${diaryId}`).delete();
+      }
+    };
+
     return (
        
         <div>
@@ -99,23 +106,18 @@ const Home = ({userObj}) => {
                     <Diary key={diary.id} diaryObj={diary} /> 
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary" href={`/sdiary/#/detailDiary/${diary.id}`}>
+                    <Button size="small" color="primary" href={`/sdiary/#/detailDiary/${diary.id}/${diary.creatorId === userObj.creatorId}`}>
                       상세
                     </Button>
                     {diary.creatorId === userObj.creatorId ?
 
                       (
-                      <>
-                      <Button size="small" color="primary">
-                        수정
-                      </Button>
-                      <Button size="small" color="primary">
+                      <Button size="small" color="primary" onClick={ onDeleteClick.bind(this, diary.id) } >
                        삭제
                       </Button>
-                      </>
                       )
                       :
-                      userObj.username
+                      diary.creatorName
                     }
                     
                   </CardActions>

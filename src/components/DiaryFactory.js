@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import TextField from '@material-ui/core/TextField';
 import { dbService } from "fbase";
 import { Button } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 const DiaryFactory = ({userObj}) =>{
 
@@ -14,7 +14,8 @@ const DiaryFactory = ({userObj}) =>{
             text: diary,
             createdAt : Date.now(),
             creatorId : userObj.creatorId,
-            sector : userObj.sector
+            sector : userObj.sector,
+            creatorName : userObj.username
         }
        
         await dbService.collection("diarys").add(diaryObj);

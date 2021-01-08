@@ -22,7 +22,7 @@ const AppRouter = ({userObj, refreshUser}) => {
                     <Route exact path="/profile" >
                         <Profile userObj={userObj} refreshUser={refreshUser} />
                     </Route>
-                    <Route exact path="/detailDiary/:id" component={DetailDiary} />
+                    <Route exact path="/detailDiary/:id/:isOwner" component={DetailDiary} />
                     <Redirect from="*" to="/" />
                 </>
                 )
