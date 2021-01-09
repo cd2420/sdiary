@@ -53,7 +53,7 @@ const EditProfile = ({userObj,refreshUser}) => {
         },
       }));
 
-      const classes = useStyles();
+    const classes = useStyles();
 
     const onChange = (event) => {
         const {target : {name, value}} = event;

@@ -20,6 +20,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AppRouter from "./Router";
+import { serviceAuth } from "fbase";
 
 
 const Navigation = ({userObj,refreshUser}) => {
@@ -115,6 +116,12 @@ const Navigation = ({userObj,refreshUser}) => {
         setOpen(false);
       };
       const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+      const signOut = () => {
+        serviceAuth.signOut();
+        window.location.reload();
+      }
+
     return (
     <div className={classes.root}>
         <CssBaseline />
@@ -152,7 +159,16 @@ const Navigation = ({userObj,refreshUser}) => {
           <List><Links href="/sdiary/#/profile">My Profile</Links></List>
           <Divider />
           {userObj.position ==="(부)구역장" &&
-           <List><Links href="/sdiary/#/profile">구역원 체크</Links></List>
+          <>
+           <List><Links href="/sdiary/#/invite">초대</Links></List>
+           <Divider />
+           </>
+          }
+          {userObj.checkObj &&
+          <>
+           <List><Links href="#" onClick={signOut}>로그아웃</Links></List>
+           <Divider />
+           </>
           }
         </Drawer>
         <main className={classes.content}>
