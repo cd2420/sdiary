@@ -51,7 +51,6 @@ const Input = ({userObj,refreshUser}) => {
           input.createdAtTimeStamp = Date.now()
           await dbService.collection("lists").add(input);
           if(count === countcheck){
-            alert("등록 성공")
             window.location.reload();
           }
         })
