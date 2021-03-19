@@ -34,7 +34,6 @@ const Update = ({userObj,refreshUser}) => {
           countcheck += 1
           await dbService.doc(`lists/${output.id}`).update(output);
           if(count === countcheck){
-            alert("수정 성공")
             window.location.reload();
           }
         })
