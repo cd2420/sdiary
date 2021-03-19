@@ -4,7 +4,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
-import { Button, FormControlLabel, FormLabel, Radio, RadioGroup } from "@material-ui/core";
 
 const InputDto = ({classes, input, onInput, update = false})=> {
 

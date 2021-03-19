@@ -34,7 +34,7 @@ const Update = ({userObj,refreshUser}) => {
           countcheck += 1
           await dbService.doc(`lists/${output.id}`).update(output);
           if(count === countcheck){
-            alert("등록 성공")
+            alert("수정 성공")
             window.location.reload();
           }
         })
@@ -48,6 +48,7 @@ const Update = ({userObj,refreshUser}) => {
     const remove = async(event) => {
       const {target : {id}} = event
       if (window.confirm("정말로 삭제하시겠습니까?")) {
+        setOutputs(outputs.filter(output => output.id !== id))
         await dbService.doc(`lists/${id}`).delete();
       }
     }

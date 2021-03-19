@@ -2,7 +2,6 @@
 import Invite from "router/Input";
 import React from "react";
 import EditProfile from "./EditProfile";
-import Home from "./Home";
 
 const CheckPerson = ({userObj,refreshUser}) => {
 

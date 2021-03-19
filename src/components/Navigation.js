@@ -91,6 +91,7 @@ const Navigation = ({userObj,refreshUser}) => {
 
       const signOut = () => {
         serviceAuth.signOut();
+        refreshUser();
         window.location.reload();
       }
 
