@@ -1,7 +1,10 @@
+import { checkAdminSign } from "config/common";
 import React from "react";
 import EditProfile from "./EditProfile";
 
 const Profile = ({userObj,refreshUser}) => {
+
+
     return (
         <>
         {

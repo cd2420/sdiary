@@ -8,7 +8,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Avatar, Typography } from "@material-ui/core";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
-const PhoneAuthProvide = () => {
+const PhoneAuthProvide = ({refreshUser}) => {
 
     function onSignInSubmit(e) {
         e.preventDefault();
@@ -40,7 +40,6 @@ const PhoneAuthProvide = () => {
         }
       }
 
-      
       const addUser = async (user) => {
         const users = await dbService.collection("users").where("creatorId", "==", user.uid).get();
         const check = users.docs.length;
@@ -56,7 +55,7 @@ const PhoneAuthProvide = () => {
           username : null,
           adminSign : false,
           sector : null,
-          position : null
+          team : null
         });
       }
     
@@ -74,10 +73,10 @@ const PhoneAuthProvide = () => {
             var user = result.user;
 
             addUser(user);
-
             window.verifyingCode = false;
             window.confirmationResult = null;
             updateVerificationCodeFormUI();
+            refreshUser();
           }).catch(function (error) {
             // User couldn't sign in (bad verification code?)
             console.error('Error while checking the verification code', error);
@@ -251,24 +250,24 @@ const PhoneAuthProvide = () => {
           휴대폰 인증
         </Typography>
         <form className={classes.form} id="sign-in-form" action="#">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" placeholder="(ex) +82 01012345678" pattern="\+[0-9\s\-\(\)]+" id="phone-number" />
-            <span class="mdl-textfield__error">Input is not an international phone number!</span>
+          <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input className="mdl-textfield__input" type="text" placeholder="(ex) +82 01012345678" pattern="\+[0-9\s\-\(\)]+" id="phone-number" />
+            <span className="mdl-textfield__error">Input is not an international phone number!</span>
           </div>
           <div id="recaptcha-container"></div>
-          <input type="submit" disabled class="mdl-button mdl-js-button mdl-button--raised" id="sign-in-button" value="Sign-in"/>
+          <input type="submit" disabled className="mdl-button mdl-js-button mdl-button--raised" id="sign-in-button" value="Sign-in"/>
         </form>
       
-        <button class="mdl-button mdl-js-button mdl-button--raised" id="sign-out-button">Sign-out</button>
+        <button className="mdl-button mdl-js-button mdl-button--raised" id="sign-out-button">Sign-out</button>
 
         <form id="verification-code-form" action="#">
-                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="verification-code" placeholder="코드입력" />
+          <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+             <input className="mdl-textfield__input" type="text" id="verification-code" placeholder="코드입력" />
                     {/* <input class="mdl-textfield__input" type="text" placeholder="이름" id="user-name" value={userName} onChange={changeName} /> */}
-                  </div>
-                  <input type="submit" class="mdl-button mdl-js-button mdl-button--raised" id="verify-code-button" value="Verify Code"/>
-                  <button class="mdl-button mdl-js-button mdl-button--raised" id="cancel-verify-code-button">Cancel</button>
-                </form>
+          </div>
+          <input type="submit" className="mdl-button mdl-js-button mdl-button--raised" id="verify-code-button" value="Verify Code"/>
+          <button className="mdl-button mdl-js-button mdl-button--raised" id="cancel-verify-code-button">Cancel</button>
+        </form>
 
       </div>
       </Container>

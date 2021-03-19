@@ -1,6 +1,5 @@
 import { dbService, serviceAuth } from "fbase";
 import React,{useState,useEffect} from "react";
-import AppRouter from "components/Router";
 import Navigation from "./Navigation";
 import PhoneAuthProvide from "./PhoneAuthProvide";
 
@@ -58,9 +57,16 @@ function App() {
   }
 
   const checkObjfun = (userObj) => {
-    if(Boolean(userObj.position) && Boolean(userObj.sector) && Boolean(userObj.username)){
-       return true;
-    } else {
+    try {
+      
+      if(Boolean(userObj.team) && Boolean(userObj.sector) && Boolean(userObj.username)){
+        return true;
+      } else {
+        return false;
+      } 
+
+    } catch (error) {
+      console.log(error)
       return false;
     }
   }
@@ -68,7 +74,7 @@ function App() {
   return (
     <>
       {isInit ? (
-         Boolean(userObj) ? <Navigation userObj={userObj} refreshUser={refreshUser} /> : <PhoneAuthProvide /> 
+         Boolean(userObj) ? <Navigation userObj={userObj} refreshUser={refreshUser} /> : <PhoneAuthProvide refreshUser={refreshUser} /> 
       )  : "Initializing"}
     </>
   );

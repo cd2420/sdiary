@@ -1,32 +1,24 @@
 import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+
 
 const EditProfile = ({userObj,refreshUser}) => {
+
     const [newsector, setSector] = useState(userObj.sector);
+    // const [newteam, setTeam] = useState(userObj.team);
     const [newusername, setUsername] = useState(userObj.username);
-    const [newposition, setPosition] = useState(userObj.position);
     const [checkSector, setCheckSector] = useState(false);
+    let newteam = 0;
 
     useEffect(
         () => {
-            if(isSectorValid(newsector)){
+            if(isNumberValid(newsector)){
                 setCheckSector(true);
             };   
         }
@@ -59,18 +51,22 @@ const EditProfile = ({userObj,refreshUser}) => {
         const {target : {name, value}} = event;
         if(name === "sector") {
             setSector(value);
-            if(isSectorValid(value)){
+            if(isNumberValid(value)){
                 setCheckSector(true);
             };
         } else if(name ==="username") {
             setUsername(value);
-        } else if(name ==="position") {
-            setPosition(value);
+        } 
+        // else if(name ==="team") {
+        //     setTeam(value);
+        //     if(isNumberValid(value)){
+        //       setCheckSector(true);
+        //   };
     
-        }
+        // }
     }
 
-    const isSectorValid = (sectorNum) => {
+    const isNumberValid = (sectorNum) => {
         var pattern = /^[0-9]*$/;
         if(sectorNum === null){
             return 0;
@@ -81,11 +77,22 @@ const EditProfile = ({userObj,refreshUser}) => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
+        if (newsector >= 1 && newsector <= 4){
+          newteam = 13
+        } else if (newsector >= 5 && newsector <= 8){
+          newteam = 14
+        } else if (newsector >= 9 && newsector <= 12){
+          newteam = 15
+        } else if (newsector >= 13 && newsector <= 16){
+          newteam = 16
+        } else if (newsector >= 17 && newsector <= 20){
+          newteam = 17
+        } 
         if(checkSector){
             await dbService.doc(`users/${userObj.id}`).update({
                 sector:newsector,
                 username:newusername,
-                position:newposition,
+                team:newteam,
             });
            
         } else {
@@ -113,6 +120,18 @@ const EditProfile = ({userObj,refreshUser}) => {
               />
             </Grid>
 
+            {/* <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="팀입력 (숫자만)"
+                name="team"
+                value={newteam}
+                onChange={onChange}
+              />
+            </Grid> */}
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -123,32 +142,6 @@ const EditProfile = ({userObj,refreshUser}) => {
                 value={newusername}
                 onChange={onChange}
               />
-            </Grid>
-            
-            <Grid item xs={12}>
-                <FormLabel component="legend">담당업무</FormLabel>
-                <RadioGroup row aria-label="position" name="position" value={newposition} >
-                  
-                    <FormControlLabel
-                    value="(부)구역장"
-                    control={<Radio color="primary" />}
-                    label="(부)구역장"
-                    labelPlacement="start"
-                    onChange={onChange} 
-                    name="position"
-                    required
-                    />
-
-                    <FormControlLabel
-                    value="구역원"
-                    control={<Radio color="primary" />}
-                    label="구역원"
-                    labelPlacement="start"
-                    onChange={onChange} 
-                    name="position"
-                    required
-                    />
-                </RadioGroup>
             </Grid>
           </Grid>
           <Button
@@ -165,19 +158,6 @@ const EditProfile = ({userObj,refreshUser}) => {
       
       </div>
     </Container>
-        // <>
-    //     <form onSubmit={onSubmit}>
-    //     <input type="text" placeholder="구역입력 (숫자만)" value={newsector} onChange={onChange} name="sector" required/>
-    //     <br />
-    //     <input type="text" placeholder="이름입력" value={newusername} onChange={onChange} name="username"  required />
-    //     <br />
-    //     <span>담당업무: </span>&nbsp;
-    //     <label for="position1">(부)구역장</label><input type="radio" value="(부)구역장" id="position1" name="position" onChange={onChange}/>&nbsp;&nbsp;
-    //     <label for="position2">구역원</label><input type="radio" value="구역원" id="position2" name="position" onChange={onChange} />
-    //     <br />
-    //     <input type="submit" value="신청" />
-    // </form>
-        // </>
     );
 }
 
