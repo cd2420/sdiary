@@ -58,7 +58,6 @@ const Input = ({userObj,refreshUser}) => {
           input.targetMan = input.targetMan.slice(0,-1) + "*"
           await dbService.collection("lists").add(input);
           if(count === countcheck){
-            alert("등록 완료")
             window.location.reload();
           }
         })
