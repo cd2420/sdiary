@@ -38,7 +38,7 @@ export const useStyles = makeStyles((theme) => ({
     btn: {
       border: 0,
       lineHeight: 2.5,
-      padding: theme.spacing(0, 3),
+      padding: theme.spacing(0, 2),
       fontSize: '1rem',
       textAlign: 'center',
       color: '#fff',
@@ -46,7 +46,7 @@ export const useStyles = makeStyles((theme) => ({
       borderRadius: '10px',
       backgroundColor: 'rgba(220, 0, 0, 1)',
       marginTop:15,
-      
+      marginLeft:15
     },
     margin: {
       marginTop: 20,

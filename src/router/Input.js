@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import {useStyles , makeCreatedTime } from "config/common";
 import InputDto from "../components/InputDto";
 import { dbService } from "fbase";
+import "../css/input.css"
 
 
 const Input = ({userObj,refreshUser}) => {
@@ -117,26 +118,20 @@ const Input = ({userObj,refreshUser}) => {
               
             ))
           }
-          <Button
-          variant="contained"
-          color="secondary"
+          <input
+          type = "button"
           onClick={plus}
-          fullWidth
+          className="plusBtn"
+          value = "+"
+          />
+            
 
-        >
-          +
-        </Button>
-
-          <Button
+          <input
             type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            등록
-          </Button>
-
+            className="subBtn"
+            value="등록"
+          />
+            
         </form>
 
       </Grid>
