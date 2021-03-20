@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef,useCallback } from "react";
 import { Button } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
-import {useStyles , checkAdminSign, makeCreatedTime } from "config/common";
+import {useStyles , makeCreatedTime } from "config/common";
 import InputDto from "../components/InputDto";
 import { dbService } from "fbase";
 
 
 const Input = ({userObj,refreshUser}) => {
+
+    const childRef = useRef();
 
     const [inputs, setInputs] = useState([]);
     const makeObj = (key) => ({
@@ -20,11 +22,15 @@ const Input = ({userObj,refreshUser}) => {
       creatorId : userObj.creatorId,
       address : '',
       gender : '',
+      age: 0,
     })
+
+    
 
     useEffect(
       () => {
         setInputs(inputs.concat([makeObj(1)]));
+        
       }
      , []);
 
@@ -38,9 +44,8 @@ const Input = ({userObj,refreshUser}) => {
       keyNum.current += 1;
     }
 
-    const onSubmit =  async(event) => {
+    const onSubmit =  useCallback((event) => {
       event.preventDefault();
-        
       try{
         const count = inputs.length
         let countcheck = 0
@@ -49,8 +54,10 @@ const Input = ({userObj,refreshUser}) => {
           countcheck += 1
           input.createdAt = createdAt
           input.createdAtTimeStamp = Date.now()
+          input.targetMan = input.targetMan.slice(0,-1) + "*"
           await dbService.collection("lists").add(input);
           if(count === countcheck){
+            alert("등록 완료")
             window.location.reload();
           }
         })
@@ -59,7 +66,7 @@ const Input = ({userObj,refreshUser}) => {
         alert("등록 실패")
         
       }
-    }
+    })
     
     const remove = (event) => {
       const {target : {id}} = event
@@ -79,10 +86,13 @@ const Input = ({userObj,refreshUser}) => {
             input.address = data.address
           } else if (data.hasOwnProperty('gender')) {
             input.gender = data.gender
+          } else if (data.hasOwnProperty('age')) {
+            input.age = data.age
           }
         }
       })
     }
+    
 
     return (
       <>
@@ -91,17 +101,18 @@ const Input = ({userObj,refreshUser}) => {
           { 
             inputs.map((input) => (
               <Grid item key={input.key} xs className={classes.root} >
-                <InputDto classes={classes} input={input} onInput={handleInputs} />
+                <InputDto classes={classes} input={input} onInput={handleInputs} ref={childRef}  />
                 { Boolean(input.key !== 1) && 
                   <>
-                  <button 
+                  <input 
+                    type = "button"
                     onClick={remove}
                     id = {input.key}
-                    className={classes.margin}>
-                    삭제
-                  </button>
+                    className={classes.margin}
+                    value="삭제"
+                    />
                 </>
-              }
+                }
               </Grid>
               
             ))
@@ -111,6 +122,7 @@ const Input = ({userObj,refreshUser}) => {
           color="secondary"
           onClick={plus}
           fullWidth
+
         >
           +
         </Button>
@@ -126,6 +138,7 @@ const Input = ({userObj,refreshUser}) => {
           </Button>
 
         </form>
+
       </Grid>
       </>
     );

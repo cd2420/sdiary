@@ -142,9 +142,6 @@ const Navigation = ({userObj,refreshUser}) => {
               <Link href="/sdiary/#/profile">My Profile</Link>
             </ListItem>
             <ListItem button>
-              <Link href="/sdiary/#/statistics">수치확인</Link>
-            </ListItem>
-            <ListItem button>
               <Link href="/sdiary/#/update">목달수정</Link>
             </ListItem>
             {userObj.checkObj &&
@@ -154,6 +151,14 @@ const Navigation = ({userObj,refreshUser}) => {
             }
         </List>
         <Divider />
+        <List>
+            <ListItem button>
+              <Link href="/sdiary/#/statistics">수치확인</Link>
+            </ListItem>
+            <ListItem button>
+              <Link href="/sdiary/#/lists">열매리스트</Link>
+            </ListItem>
+        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {

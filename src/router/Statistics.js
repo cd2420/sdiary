@@ -1,4 +1,4 @@
-import { checkAdminSign, makeCreatedTime, totalCountBySector, useStyles,totalCountByTeam,totalCount, timeStampOneDay } from "config/common";
+import { makeCreatedTime, totalCountBySector, useStyles,totalCountByTeam,totalCount, timeStampOneDay } from "config/common";
 import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
 import Table from '@material-ui/core/Table';
@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 
-const Statistics = ({userObj}) => {
+const Statistics = () => {
 
     const classes = useStyles();
     const today = makeCreatedTime();

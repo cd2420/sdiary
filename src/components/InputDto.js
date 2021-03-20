@@ -1,20 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,forwardRef, useImperativeHandle  } from "react";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 
-const InputDto = ({classes, input, onInput, update = false})=> {
-
+// const InputDto = ({classes, input, onInput, update = false, checks})=> {
+const InputDto = forwardRef((props,ref)=> {
+  
+    const update = props.update
+    const input = props.input
+    const classes = props.classes
+    const onInput = props.onInput
+      
     const key = !update ? input.key : input.id;
-
     const [inviteMan, setInviteMan] = useState(!update ? "" : input.inviteMan);
     const [targetMan, setTargetMan] = useState(!update ? "" : input.targetMan);
     const [step, setStep] = useState(!update ?"대상자" : input.step);
     const [address, setAddress] = useState(!update ?"남구" : input.address);
     const [gender, setGender] = useState(!update ?"남" : input.gender);
-    
+    const [age, setAge] = useState(!update ? null:input.age)
+
+    useImperativeHandle(ref, () => ({
+      
+    }));
+
     useEffect(
       () => {
         onInput({
@@ -66,9 +76,17 @@ const InputDto = ({classes, input, onInput, update = false})=> {
             gender:value,
             key:key
           })
+        } else if(name === "age") {
+          setAge(value);
+          onInput({
+            age:value,
+            key:key
+          })
         }
         
     }
+
+    
 
     return (
       <>
@@ -91,6 +109,16 @@ const InputDto = ({classes, input, onInput, update = false})=> {
             value={targetMan}
             onChange={onChange}
             placeholder="열매이름"
+          />
+          <TextField
+            variant="outlined"
+            required
+            label="나이"
+            rowsMax={1}  
+            name="age"
+            value={age}
+            onChange={onChange}
+            placeholder="나이"
           />
           <FormControl variant="outlined" className={classes.formControl}>
             <InputLabel id="demo-simple-select-outlined-label">단계</InputLabel>
@@ -122,6 +150,7 @@ const InputDto = ({classes, input, onInput, update = false})=> {
               <MenuItem value={"중구"}>중구</MenuItem>
               <MenuItem value={"동구"}>동구</MenuItem>
               <MenuItem value={"북구"}>북구</MenuItem>
+              <MenuItem value={"울주군"}>울주군</MenuItem>
             </Select>
           </FormControl>
           <FormControl variant="outlined" className={classes.formControl}>
@@ -141,6 +170,6 @@ const InputDto = ({classes, input, onInput, update = false})=> {
     </>
     )
 
-}
+})
 
 export default InputDto
