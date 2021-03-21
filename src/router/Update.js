@@ -26,7 +26,6 @@ const Update = ({userObj,refreshUser}) => {
 
     const onSubmit =  async(event) => {
       event.preventDefault();
-      console.log(event)
       try{
         const count = outputs.length
         let countcheck = 0
