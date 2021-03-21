@@ -56,7 +56,7 @@ const InputLists = () => {
             ));
             teams = teamsArray
             setTeams(teams)
-            dbService.collection("lists").orderBy("createdAtTimeStamp","desc").onSnapshot((snapshot) => {
+            dbService.collection("lists").orderBy("sector").onSnapshot((snapshot) => {
                 const listsArray = snapshot.docs.map((doc) => (
                     {
                         id:doc.id,
