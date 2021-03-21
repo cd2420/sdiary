@@ -31,7 +31,6 @@ const Input = ({userObj,refreshUser}) => {
     useEffect(
       () => {
         setInputs(inputs.concat([makeObj(1)]));
-        
       }
      , []);
 
@@ -56,13 +55,13 @@ const Input = ({userObj,refreshUser}) => {
           input.createdAt = createdAt
           input.createdAtTimeStamp = Date.now()
           input.targetMan = input.targetMan.slice(0,-1) + "*"
+          console.log(input)
           await dbService.collection("lists").add(input);
           if(count === countcheck){
             window.location.reload();
           }
         })
       } catch(e){
-        console.log(e)
         alert("등록 실패")
         
       }
@@ -88,7 +87,10 @@ const Input = ({userObj,refreshUser}) => {
             input.gender = data.gender
           } else if (data.hasOwnProperty('age')) {
             input.age = data.age
-          }
+          } else if (data.hasOwnProperty('team') || data.hasOwnProperty('sector')) {
+            input.team = data.team
+            input.sector = data.sector
+          } 
         }
       })
     }

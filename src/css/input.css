@@ -8,6 +8,10 @@ input.plusBtn {
 	margin-bottom: 20px;
 }
 
+input.plusBtn:hover {
+	cursor: pointer;
+}
+
 input.subBtn {
 	width: 100%;
 	height: 35px;
@@ -15,4 +19,8 @@ input.subBtn {
 	color: whitesmoke;
 	font-size: 20px;
 	border-radius: 5em;
+}
+
+input.subBtn:hover {
+	cursor: pointer;
 }

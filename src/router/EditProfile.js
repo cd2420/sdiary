@@ -11,7 +11,6 @@ import Container from '@material-ui/core/Container';
 const EditProfile = ({userObj,refreshUser}) => {
 
     const [newsector, setSector] = useState(userObj.sector);
-    // const [newteam, setTeam] = useState(userObj.team);
     const [newusername, setUsername] = useState(userObj.username);
     const [checkSector, setCheckSector] = useState(false);
     let newteam = 0;
@@ -57,13 +56,6 @@ const EditProfile = ({userObj,refreshUser}) => {
         } else if(name ==="username") {
             setUsername(value);
         } 
-        // else if(name ==="team") {
-        //     setTeam(value);
-        //     if(isNumberValid(value)){
-        //       setCheckSector(true);
-        //   };
-    
-        // }
     }
 
     const isNumberValid = (sectorNum) => {
@@ -119,19 +111,6 @@ const EditProfile = ({userObj,refreshUser}) => {
                 onChange={onChange}
               />
             </Grid>
-
-            {/* <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                label="팀입력 (숫자만)"
-                name="team"
-                value={newteam}
-                onChange={onChange}
-              />
-            </Grid> */}
-
             <Grid item xs={12}>
               <TextField
                 variant="outlined"

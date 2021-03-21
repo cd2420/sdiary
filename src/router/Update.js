@@ -6,7 +6,7 @@ import InputDto from "../components/InputDto";
 import { dbService } from "fbase";
 
 
-const Update = ({userObj,refreshUser}) => {
+const Update = ({userObj}) => {
 
     const childRef = useRef();
     const classes = useStyles();
@@ -70,7 +70,10 @@ const Update = ({userObj,refreshUser}) => {
             output.gender = data.gender
           } else if (data.hasOwnProperty('age')) {
             output.age = data.age
-          }
+          } else if (data.hasOwnProperty('team') || data.hasOwnProperty('sector')) {
+            output.team = data.team
+            output.sector = data.sector
+          } 
         }
       })
     }

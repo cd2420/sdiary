@@ -20,6 +20,9 @@ const InputDto = forwardRef((props,ref)=> {
     const [address, setAddress] = useState(!update ?"남구" : input.address);
     const [gender, setGender] = useState(!update ?"남" : input.gender);
     const [age, setAge] = useState(!update ? null:input.age)
+    const [team,setTeam] = useState(parseInt(input.team))
+    const [sector,setSector] = useState(parseInt(input.sector))
+    
 
     useImperativeHandle(ref, () => ({
       
@@ -37,6 +40,11 @@ const InputDto = forwardRef((props,ref)=> {
         });
         onInput({
           gender: gender,
+          key : key
+        });
+        onInput({
+          sector: sector,
+          team: team,
           key : key
         });
       }
@@ -81,8 +89,29 @@ const InputDto = forwardRef((props,ref)=> {
           onInput({
             age:value,
             key:key
+          })          
+        } else if(name === "sector") {
+          let newteam = input.team
+          if (value >= 1 && value <= 4){
+            newteam = 13
+          } else if (value >= 5 && value <= 8){
+            newteam = 14
+          } else if (value >= 9 && value <= 12){
+            newteam = 15
+          } else if (value >= 13 && value <= 16){
+            newteam = 16
+          } else if (value >= 17 && value <= 20){
+            newteam = 17
+          }
+          setSector(value);
+          setTeam(newteam)
+          onInput({
+            sector:value,
+            team:newteam,
+            key:key
           })
-        }
+
+        } 
         
     }
 
@@ -90,6 +119,49 @@ const InputDto = forwardRef((props,ref)=> {
 
     return (
       <>
+        <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel id="demo-simple-select-outlined-label">구역</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={sector}
+              name="sector"
+              onChange={onChange}
+              label="팀"
+            >
+              {
+                [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map(sec => (
+                  <MenuItem value={sec}>{sec+'구역'}</MenuItem>
+                ))
+              }
+            </Select>
+        </FormControl>
+        <TextField
+            variant="outlined"
+            required
+            label="팀"
+            rowsMax={1}  
+            name="team"
+            value={team}
+            disabled
+          />
+        {/* <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel id="demo-simple-select-outlined-label">팀</InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={team}
+              name="team"
+              onChange={onChange}
+              label="팀"
+            >
+              <MenuItem value={13}>13팀</MenuItem>
+              <MenuItem value={14}>14팀</MenuItem>
+              <MenuItem value={15}>15팀</MenuItem>
+              <MenuItem value={16}>16팀</MenuItem>
+              <MenuItem value={17}>17팀</MenuItem>
+            </Select>
+          </FormControl> */}
           <TextField
             variant="outlined"
             required
