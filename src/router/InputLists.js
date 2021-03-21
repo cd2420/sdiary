@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
+import { FormControl, InputLabel, MenuItem,Select } from "@material-ui/core";
 
 
 
@@ -20,8 +21,8 @@ const InputLists = () => {
     const today = makeCreatedTime();
 
     const [listsArray,setListsArray] = useState([])
-    
     const [cal, setCal] = useState(new Date());
+    const [step,setStep] = useState("전체")
 
     let [teams,setTeams] = useState([])
     let [lists,setLists] = useState({})
@@ -35,7 +36,12 @@ const InputLists = () => {
 
         listsArray.map((list) => {
             if(list.createdAtTimeStamp <= (date + timeStampOneDay)){
-                lists[list.team+"팀"].push(list)
+                // lists[list.team+"팀"].push(list)
+                if (step === "전체" ){
+                    lists[list.team+"팀"].push(list)
+                } else {
+                    if (list.step === step) lists[list.team+"팀"].push(list)
+                }
             }
         })
 
@@ -69,6 +75,30 @@ const InputLists = () => {
         });
     }
 
+    const onChange = (event) => {
+        const {target : {value}} = event
+
+        lists = {}
+        teams.map((team)=> {
+            lists[team.team] = [] 
+        })
+
+        listsArray.map((list) => {
+            if(list.createdAtTimeStamp <= (new Date(cal).getTime() + timeStampOneDay)){
+                if (value === "전체" ){
+                    lists[list.team+"팀"].push(list)
+                } else {
+                    if (list.step === value) lists[list.team+"팀"].push(list)
+                }
+                
+            }
+        })
+
+        setLists(lists);
+        setStep(value);
+
+    }
+
     useEffect(
         () => {
             callListsAndTeams()
@@ -86,6 +116,23 @@ const InputLists = () => {
                 maxDate = {new Date()}
                 className = {classes.calendar}
             />
+            <FormControl variant="outlined" className={classes.formControlinputLists}>
+                <InputLabel id="demo-simple-select-outlined-label">단계검색</InputLabel>
+                <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={step}
+                name="step"
+                onChange={onChange}
+                label="단계"
+                >
+                <MenuItem value={"전체"}>전체</MenuItem>    
+                <MenuItem value={"대상자"}>대상자</MenuItem>
+                <MenuItem value={"합당한자"}>합당한자</MenuItem>
+                <MenuItem value={"복음방"}>복음방</MenuItem>
+                <MenuItem value={"센터확정자"}>센터확정자</MenuItem>
+                </Select>
+          </FormControl>
             
             {
                 teams.map((te)=>(

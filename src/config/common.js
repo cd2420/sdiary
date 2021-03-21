@@ -25,6 +25,11 @@ export const useStyles = makeStyles((theme) => ({
       minWidth: 100,
       marginRight: 10,
     },
+    formControlinputLists:{
+      margin: theme.spacing(1),
+      minWidth: 140,
+      marginBottom: 20,
+    },
     dateFormControl : {
       margin: theme.spacing(1),
       minWidth: 180,
